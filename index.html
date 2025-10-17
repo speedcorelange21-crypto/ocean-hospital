@@ -605,6 +605,98 @@
             color: #666;
         }
 
+        .bewerbung-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .bewerbung-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .bewerbung-name {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #667eea;
+        }
+
+        .bewerbung-datum {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .bewerbung-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .bewerbung-field {
+            margin-bottom: 0.5rem;
+        }
+
+        .bewerbung-label {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        .bewerbung-value {
+            color: #333;
+        }
+
+        .bewerbung-text {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .bewerbung-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-accept {
+            background: #2ecc71;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-accept:hover {
+            background: #27ae60;
+        }
+
+        .btn-reject {
+            background: #e74c3c;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-reject:hover {
+            background: #c0392b;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -717,8 +809,98 @@
                     <p>Organisiere den Krankenhausbetrieb und sorge für reibungslose Abläufe.</p>
                 </div>
             </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#bewerbung" class="cta-button" style="font-size: 1.2rem; padding: 1.5rem 3rem;">
+                    📝 Jetzt bewerben
+                </a>
+            </div>
         </section>
     </div>
+
+    <section class="login-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" id="bewerbung">
+        <div class="container">
+            <h2 style="color: white; text-align: center; margin-bottom: 1rem;">📝 Bewerbungsformular</h2>
+            <p style="color: white; text-align: center; margin-bottom: 2rem; font-size: 1.1rem;">
+                Bewirb dich jetzt beim Ocean Hospital und werde Teil unseres Teams!
+            </p>
+            
+            <div class="login-box">
+                <form onsubmit="return submitBewerbung(event)">
+                    <div class="form-group">
+                        <label>Vollständiger Name *</label>
+                        <input type="text" id="bewerbungName" placeholder="Max Mustermann" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alter *</label>
+                        <input type="number" id="bewerbungAlter" min="18" max="99" placeholder="z.B. 25" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Discord Name *</label>
+                        <input type="text" id="bewerbungDiscord" placeholder="z.B. MaxMuster#1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gewünschte Position *</label>
+                        <select id="bewerbungPosition" required>
+                            <option value="">Bitte wählen...</option>
+                            <option value="Arzt/Ärztin">🩺 Arzt/Ärztin</option>
+                            <option value="Sanitäter/in">🚑 Sanitäter/in</option>
+                            <option value="Verwaltung">💼 Verwaltung</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bevorzugte Abteilung *</label>
+                        <select id="bewerbungAbteilung" required>
+                            <option value="">Bitte wählen...</option>
+                            <option value="Notaufnahme">Notaufnahme</option>
+                            <option value="Chirurgie">Chirurgie</option>
+                            <option value="Allgemeinmedizin">Allgemeinmedizin</option>
+                            <option value="Intensivstation">Intensivstation</option>
+                            <option value="Rettungsdienst">Rettungsdienst</option>
+                            <option value="Verwaltung">Verwaltung</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Roleplay-Erfahrung *</label>
+                        <select id="bewerbungErfahrung" required>
+                            <option value="">Bitte wählen...</option>
+                            <option value="Keine Erfahrung">Keine Erfahrung</option>
+                            <option value="Anfänger (unter 6 Monate)">Anfänger (unter 6 Monate)</option>
+                            <option value="Fortgeschritten (6-12 Monate)">Fortgeschritten (6-12 Monate)</option>
+                            <option value="Erfahren (über 1 Jahr)">Erfahren (über 1 Jahr)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Verfügbarkeit pro Woche *</label>
+                        <select id="bewerbungVerfuegbar" required>
+                            <option value="">Bitte wählen...</option>
+                            <option value="1-5 Stunden">1-5 Stunden</option>
+                            <option value="5-10 Stunden">5-10 Stunden</option>
+                            <option value="10-20 Stunden">10-20 Stunden</option>
+                            <option value="Über 20 Stunden">Über 20 Stunden</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Warum möchtest du bei uns arbeiten? *</label>
+                        <textarea id="bewerbungMotivation" rows="5" placeholder="Erzähle uns, warum du Teil des Ocean Hospital Teams werden möchtest..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Bisherige RP-Erfahrung / Charakter-Hintergrund</label>
+                        <textarea id="bewerbungHintergrund" rows="4" placeholder="Optional: Erzähle uns von deinen bisherigen RP-Erfahrungen oder deiner Charakter-Geschichte..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" id="bewerbungDatenschutz" required style="width: auto; margin-right: 0.5rem;">
+                            Ich habe das Regelwerk gelesen und akzeptiere die Bedingungen *
+                        </label>
+                    </div>
+                    <button type="submit" class="btn">Bewerbung absenden</button>
+                </form>
+                <p style="text-align: center; margin-top: 1.5rem; color: #666; font-size: 0.9rem;">
+                    * Pflichtfelder | Wir melden uns innerhalb von 48 Stunden bei dir!
+                </p>
+            </div>
+        </div>
+    </section>
 
     <section class="login-section" id="portal">
         <div class="container">
@@ -752,6 +934,7 @@
 
                 <div class="tab-buttons">
                     <button class="tab-btn active" onclick="showTab('personal')">👥 Personal verwalten</button>
+                    <button class="tab-btn" onclick="showTab('bewerbungen')">📝 Bewerbungen</button>
                     <button class="tab-btn" onclick="showTab('stempeluhr')">⏰ Stempeluhr</button>
                     <button class="tab-btn" onclick="showTab('dienstplan')">📅 Dienstplan</button>
                     <button class="tab-btn" onclick="showTab('patienten')">📋 Patientenakten</button>
@@ -764,6 +947,18 @@
                             <button class="add-btn" onclick="openPersonalModal()">➕ Personal hinzufügen</button>
                         </div>
                         <div id="personalList"></div>
+                    </div>
+                </div>
+
+                <div id="bewerbungenTab" class="tab-content" style="display: none;">
+                    <div class="personal-management">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3 style="color: #667eea;">📝 Eingegangene Bewerbungen</h3>
+                            <span class="status-badge" style="background: #667eea; color: white; padding: 0.5rem 1rem;">
+                                <span id="bewerbungCount">0</span> Neue Bewerbungen
+                            </span>
+                        </div>
+                        <div id="bewerbungenList"></div>
                     </div>
                 </div>
 
@@ -879,4 +1074,612 @@
                     <select id="schichtTag" required>
                         <option value="">Bitte wählen...</option>
                         <option value="Montag">Montag</option>
-                        <option value="Dienstag">Di
+                        <option value="Dienstag">Dienstag</option>
+                        <option value="Mittwoch">Mittwoch</option>
+                        <option value="Donnerstag">Donnerstag</option>
+                        <option value="Freitag">Freitag</option>
+                        <option value="Samstag">Samstag</option>
+                        <option value="Sonntag">Sonntag</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Datum</label>
+                    <input type="date" id="schichtDatum" required>
+                </div>
+                <div class="form-group">
+                    <label>Schichtzeit</label>
+                    <select id="schichtZeit" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Frühschicht (06:00-14:00)">Frühschicht (06:00-14:00)</option>
+                        <option value="Spätschicht (14:00-22:00)">Spätschicht (14:00-22:00)</option>
+                        <option value="Nachtschicht (22:00-06:00)">Nachtschicht (22:00-06:00)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Personal</label>
+                    <select id="schichtPersonal" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Abteilung</label>
+                    <select id="schichtAbteilung" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Notaufnahme">Notaufnahme</option>
+                        <option value="Chirurgie">Chirurgie</option>
+                        <option value="Allgemeinmedizin">Allgemeinmedizin</option>
+                        <option value="Intensivstation">Intensivstation</option>
+                        <option value="Rettungsdienst">Rettungsdienst</option>
+                        <option value="Verwaltung">Verwaltung</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Hinzufügen</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDienstplanModal()">Abbrechen</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal für Patienten -->
+    <div id="patientModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #667eea; margin-bottom: 1.5rem;">➕ Neuen Patienten hinzufügen</h3>
+            <form onsubmit="return addPatient(event)">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label>Geburtsdatum</label>
+                    <input type="date" id="patientGeburt" required>
+                </div>
+                <div class="form-group">
+                    <label>Diagnose</label>
+                    <input type="text" id="patientDiagnose" required>
+                </div>
+                <div class="form-group">
+                    <label>Behandelnder Arzt</label>
+                    <select id="patientArzt" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Aufnahmedatum</label>
+                    <input type="date" id="patientAufnahme" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="patientStatus" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Stationär">Stationär</option>
+                        <option value="Ambulant">Ambulant</option>
+                        <option value="Intensivstation">Intensivstation</option>
+                        <option value="Entlassen">Entlassen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notizen</label>
+                    <textarea id="patientNotizen" rows="4" placeholder="Behandlungsnotizen, Medikamente, etc."></textarea>
+                </div>
+                <button type="submit" class="btn">Hinzufügen</button>
+                <button type="button" class="btn btn-secondary" onclick="closePatientModal()">Abbrechen</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="discord-section" id="kontakt">
+        <h2>🎮 Tritt unserem Discord bei</h2>
+        <p>Bewirb dich jetzt und werde Teil der besten medizinischen Einrichtung der Stadt!</p>
+        <a href="https://discord.gg/RUbxNGsuAc" target="_blank" class="cta-button" style="background: white; color: #5865F2;">Discord beitreten</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Ocean Hospital RP. Alle Rechte vorbehalten.</p>
+        <p>Eine Fraktion für Roleplay-Enthusiasten</p>
+    </footer>
+
+    <script>
+        // Daten-Speicher (im echten System würde das in einer Datenbank gespeichert)
+        let personalData = [];
+        let dienstplanData = [];
+        let patientenData = [];
+        let stempelData = [];
+        let bewerbungenData = [];
+
+        // Login-Funktion
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'ocean123') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('portalContent').classList.add('active');
+                document.getElementById('loggedUser').textContent = username;
+                loadAllData();
+                startClock();
+                return false;
+            } else {
+                alert('Falscher Benutzername oder Passwort!');
+                return false;
+            }
+        }
+
+        // Logout
+        function logout() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('portalContent').classList.add('active');
+            document.getElementById('portalContent').classList.remove('active');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Tabs wechseln
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Uhr starten
+        function startClock() {
+            function updateClock() {
+                const now = new Date();
+                const time = now.toLocaleTimeString('de-DE');
+                const date = now.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
+                document.getElementById('currentTime').textContent = time;
+                document.getElementById('currentDate').textContent = date;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Stempeluhr Funktionen
+        function stempelEin() {
+            const now = new Date();
+            const entry = {
+                type: 'ein',
+                time: now.toLocaleString('de-DE'),
+                user: document.getElementById('loggedUser').textContent
+            };
+            stempelData.unshift(entry);
+            updateStempelHistorie();
+            alert('✅ Dienst begonnen um ' + now.toLocaleTimeString('de-DE'));
+        }
+
+        function stempelAus() {
+            const now = new Date();
+            const entry = {
+                type: 'aus',
+                time: now.toLocaleString('de-DE'),
+                user: document.getElementById('loggedUser').textContent
+            };
+            stempelData.unshift(entry);
+            updateStempelHistorie();
+            alert('❌ Dienst beendet um ' + now.toLocaleTimeString('de-DE'));
+        }
+
+        function updateStempelHistorie() {
+            const container = document.getElementById('stempelHistorie');
+            container.innerHTML = '';
+            stempelData.slice(0, 10).forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'stempel-entry';
+                div.innerHTML = `
+                    <span><strong>${entry.user}</strong> - ${entry.time}</span>
+                    <span style="font-weight: bold; color: ${entry.type === 'ein' ? '#2ecc71' : '#e74c3c'}">
+                        ${entry.type === 'ein' ? '✅ Gekommen' : '❌ Gegangen'}
+                    </span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Personal-Verwaltung
+        function openPersonalModal() {
+            document.getElementById('personalModal').classList.add('active');
+        }
+
+        function closePersonalModal() {
+            document.getElementById('personalModal').classList.remove('active');
+            document.getElementById('personalName').value = '';
+            document.getElementById('personalPosition').value = '';
+            document.getElementById('personalAbteilung').value = '';
+            document.getElementById('personalTelefon').value = '';
+        }
+
+        function addPersonal(event) {
+            event.preventDefault();
+            const personal = {
+                id: Date.now(),
+                name: document.getElementById('personalName').value,
+                position: document.getElementById('personalPosition').value,
+                abteilung: document.getElementById('personalAbteilung').value,
+                telefon: document.getElementById('personalTelefon').value
+            };
+            personalData.push(personal);
+            updatePersonalList();
+            updatePersonalCount();
+            closePersonalModal();
+            return false;
+        }
+
+        function deletePersonal(id) {
+            if (confirm('Möchtest du dieses Personal wirklich löschen?')) {
+                personalData = personalData.filter(p => p.id !== id);
+                updatePersonalList();
+                updatePersonalCount();
+            }
+        }
+
+        function updatePersonalList() {
+            const container = document.getElementById('personalList');
+            container.innerHTML = '';
+            
+            if (personalData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Noch kein Personal eingetragen.</p>';
+                return;
+            }
+
+            personalData.forEach(person => {
+                const div = document.createElement('div');
+                div.className = 'personal-card';
+                div.innerHTML = `
+                    <div class="personal-info">
+                        <h4>${person.name}</h4>
+                        <p><strong>Position:</strong> ${person.position}</p>
+                        <p><strong>Abteilung:</strong> ${person.abteilung}</p>
+                        <p><strong>Telefon:</strong> ${person.telefon || 'Nicht angegeben'}</p>
+                    </div>
+                    <button class="btn-danger" onclick="deletePersonal(${person.id})">Löschen</button>
+                `;
+                container.appendChild(div);
+            });
+            
+            updatePersonalSelects();
+        }
+
+        function updatePersonalCount() {
+            document.getElementById('personalCount').textContent = personalData.length;
+        }
+
+        function updatePersonalSelects() {
+            const schichtSelect = document.getElementById('schichtPersonal');
+            const arztSelect = document.getElementById('patientArzt');
+            
+            schichtSelect.innerHTML = '<option value="">Bitte wählen...</option>';
+            arztSelect.innerHTML = '<option value="">Bitte wählen...</option>';
+            
+            personalData.forEach(person => {
+                const option1 = document.createElement('option');
+                option1.value = person.name;
+                option1.textContent = `${person.name} (${person.position})`;
+                schichtSelect.appendChild(option1);
+                
+                if (person.position.includes('Arzt') || person.position.includes('Chefarzt')) {
+                    const option2 = document.createElement('option');
+                    option2.value = person.name;
+                    option2.textContent = person.name;
+                    arztSelect.appendChild(option2);
+                }
+            });
+        }
+
+        // Dienstplan-Verwaltung
+        function openDienstplanModal() {
+            document.getElementById('dienstplanModal').classList.add('active');
+        }
+
+        function closeDienstplanModal() {
+            document.getElementById('dienstplanModal').classList.remove('active');
+        }
+
+        function addDienstplan(event) {
+            event.preventDefault();
+            const schicht = {
+                id: Date.now(),
+                tag: document.getElementById('schichtTag').value,
+                datum: document.getElementById('schichtDatum').value,
+                zeit: document.getElementById('schichtZeit').value,
+                personal: document.getElementById('schichtPersonal').value,
+                abteilung: document.getElementById('schichtAbteilung').value,
+                status: 'Geplant'
+            };
+            dienstplanData.push(schicht);
+            updateDienstplan();
+            closeDienstplanModal();
+            return false;
+        }
+
+        function deleteDienstplan(id) {
+            if (confirm('Möchtest du diese Schicht wirklich löschen?')) {
+                dienstplanData = dienstplanData.filter(d => d.id !== id);
+                updateDienstplan();
+            }
+        }
+
+        function updateDienstplan() {
+            const tbody = document.getElementById('dienstplanBody');
+            tbody.innerHTML = '';
+            
+            if (dienstplanData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666;">Noch keine Schichten eingetragen.</td></tr>';
+                return;
+            }
+
+            dienstplanData.forEach(schicht => {
+                const tr = document.createElement('tr');
+                const statusClass = schicht.status === 'Aktiv' ? 'status-active' : 'status-off';
+                tr.innerHTML = `
+                    <td>${schicht.tag}</td>
+                    <td>${new Date(schicht.datum).toLocaleDateString('de-DE')}</td>
+                    <td>${schicht.zeit}</td>
+                    <td>${schicht.personal}</td>
+                    <td>${schicht.abteilung}</td>
+                    <td><span class="status-badge ${statusClass}">${schicht.status}</span></td>
+                    <td><button class="btn-danger" onclick="deleteDienstplan(${schicht.id})">Löschen</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Patienten-Verwaltung
+        function openPatientModal() {
+            document.getElementById('patientModal').classList.add('active');
+        }
+
+        function closePatientModal() {
+            document.getElementById('patientModal').classList.remove('active');
+        }
+
+        function addPatient(event) {
+            event.preventDefault();
+            const patient = {
+                id: Date.now(),
+                name: document.getElementById('patientName').value,
+                geburt: document.getElementById('patientGeburt').value,
+                diagnose: document.getElementById('patientDiagnose').value,
+                arzt: document.getElementById('patientArzt').value,
+                aufnahme: document.getElementById('patientAufnahme').value,
+                status: document.getElementById('patientStatus').value,
+                notizen: document.getElementById('patientNotizen').value
+            };
+            patientenData.push(patient);
+            updatePatientenList();
+            closePatientModal();
+            return false;
+        }
+
+        function deletePatient(id) {
+            if (confirm('Möchtest du diesen Patienten wirklich löschen?')) {
+                patientenData = patientenData.filter(p => p.id !== id);
+                updatePatientenList();
+            }
+        }
+
+        function togglePatient(id) {
+            const details = document.getElementById('patient-' + id);
+            if (details) {
+                details.classList.toggle('show');
+            }
+        }
+
+        function updatePatientenList() {
+            const container = document.getElementById('patientenList');
+            container.innerHTML = '';
+            
+            if (patientenData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Noch keine Patienten eingetragen.</p>';
+                return;
+            }
+
+            patientenData.forEach(patient => {
+                const div = document.createElement('div');
+                div.className = 'patient-card';
+                div.innerHTML = `
+                    <button class="delete-btn" onclick="event.stopPropagation(); deletePatient(${patient.id})">Löschen</button>
+                    <div onclick="togglePatient(${patient.id})">
+                        <div class="patient-header">
+                            <div>
+                                <div class="patient-name">${patient.name}</div>
+                                <div class="patient-id">Patient-ID: #${patient.id}</div>
+                            </div>
+                            <div style="font-size: 1.5rem;">📄</div>
+                        </div>
+                        <div id="patient-${patient.id}" class="patient-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Geburtsdatum:</span> ${new Date(patient.geburt).toLocaleDateString('de-DE')}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Diagnose:</span> ${patient.diagnose}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Behandelnder Arzt:</span> ${patient.arzt}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Aufnahmedatum:</span> ${new Date(patient.aufnahme).toLocaleDateString('de-DE')}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Status:</span> ${patient.status}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Notizen:</span> ${patient.notizen}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Alle Daten laden
+        function loadAllData() {
+            updatePersonalList();
+            updateDienstplan();
+            updatePatientenList();
+            updateStempelHistorie();
+            updatePersonalCount();
+            updateBewerbungenList();
+        }
+
+        // Bewerbungen
+        function submitBewerbung(event) {
+            event.preventDefault();
+            
+            const bewerbung = {
+                id: Date.now(),
+                name: document.getElementById('bewerbungName').value,
+                alter: document.getElementById('bewerbungAlter').value,
+                discord: document.getElementById('bewerbungDiscord').value,
+                position: document.getElementById('bewerbungPosition').value,
+                abteilung: document.getElementById('bewerbungAbteilung').value,
+                erfahrung: document.getElementById('bewerbungErfahrung').value,
+                verfuegbar: document.getElementById('bewerbungVerfuegbar').value,
+                motivation: document.getElementById('bewerbungMotivation').value,
+                hintergrund: document.getElementById('bewerbungHintergrund').value,
+                datum: new Date().toLocaleString('de-DE'),
+                status: 'Neu'
+            };
+            
+            bewerbungenData.push(bewerbung);
+            
+            // Formular zurücksetzen
+            event.target.reset();
+            
+            // Erfolgs-Nachricht
+            alert('✅ Vielen Dank für deine Bewerbung!\n\nWir haben deine Bewerbung erhalten und werden uns innerhalb von 48 Stunden bei dir melden.\n\nBitte behalte unseren Discord im Auge: https://discord.gg/RUbxNGsuAc');
+            
+            // Scroll nach oben
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            return false;
+        }
+
+        function updateBewerbungenList() {
+            const container = document.getElementById('bewerbungenList');
+            const countElement = document.getElementById('bewerbungCount');
+            
+            if (countElement) {
+                countElement.textContent = bewerbungenData.filter(b => b.status === 'Neu').length;
+            }
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (bewerbungenData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Noch keine Bewerbungen eingegangen.</p>';
+                return;
+            }
+
+            bewerbungenData.forEach(bewerbung => {
+                const div = document.createElement('div');
+                div.className = 'bewerbung-card';
+                div.innerHTML = `
+                    <div class="bewerbung-header">
+                        <div>
+                            <div class="bewerbung-name">${bewerbung.name}</div>
+                            <div class="bewerbung-datum">📅 Eingegangen am: ${bewerbung.datum}</div>
+                        </div>
+                        <span class="status-badge" style="background: ${bewerbung.status === 'Neu' ? '#f39c12' : bewerbung.status === 'Angenommen' ? '#2ecc71' : '#e74c3c'}; color: white;">
+                            ${bewerbung.status}
+                        </span>
+                    </div>
+                    
+                    <div class="bewerbung-details">
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">Alter:</div>
+                            <div class="bewerbung-value">${bewerbung.alter} Jahre</div>
+                        </div>
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">Discord:</div>
+                            <div class="bewerbung-value">${bewerbung.discord}</div>
+                        </div>
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">Position:</div>
+                            <div class="bewerbung-value">${bewerbung.position}</div>
+                        </div>
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">Abteilung:</div>
+                            <div class="bewerbung-value">${bewerbung.abteilung}</div>
+                        </div>
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">RP-Erfahrung:</div>
+                            <div class="bewerbung-value">${bewerbung.erfahrung}</div>
+                        </div>
+                        <div class="bewerbung-field">
+                            <div class="bewerbung-label">Verfügbarkeit:</div>
+                            <div class="bewerbung-value">${bewerbung.verfuegbar}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bewerbung-text">
+                        <div class="bewerbung-label">💬 Motivation:</div>
+                        <p style="margin-top: 0.5rem;">${bewerbung.motivation}</p>
+                    </div>
+                    
+                    ${bewerbung.hintergrund ? `
+                        <div class="bewerbung-text">
+                            <div class="bewerbung-label">📖 RP-Hintergrund:</div>
+                            <p style="margin-top: 0.5rem;">${bewerbung.hintergrund}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${bewerbung.status === 'Neu' ? `
+                        <div class="bewerbung-actions">
+                            <button class="btn-accept" onclick="acceptBewerbung(${bewerbung.id})">
+                                ✅ Annehmen
+                            </button>
+                            <button class="btn-reject" onclick="rejectBewerbung(${bewerbung.id})">
+                                ❌ Ablehnen
+                            </button>
+                        </div>
+                    ` : ''}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function acceptBewerbung(id) {
+            const bewerbung = bewerbungenData.find(b => b.id === id);
+            if (!bewerbung) return;
+            
+            if (confirm(`Möchtest du die Bewerbung von ${bewerbung.name} wirklich annehmen?\n\nDer Bewerber wird zum Personal hinzugefügt.`)) {
+                bewerbung.status = 'Angenommen';
+                
+                // Automatisch zum Personal hinzufügen
+                const newPersonal = {
+                    id: Date.now(),
+                    name: bewerbung.name,
+                    position: bewerbung.position,
+                    abteilung: bewerbung.abteilung,
+                    telefon: bewerbung.discord
+                };
+                personalData.push(newPersonal);
+                
+                updateBewerbungenList();
+                updatePersonalList();
+                updatePersonalCount();
+                
+                alert(`✅ Bewerbung angenommen!\n\n${bewerbung.name} wurde zum Personal hinzugefügt.\nBitte kontaktiere den Bewerber über Discord: ${bewerbung.discord}`);
+            }
+        }
+
+        function rejectBewerbung(id) {
+            const bewerbung = bewerbungenData.find(b => b.id === id);
+            if (!bewerbung) return;
+            
+            if (confirm(`Möchtest du die Bewerbung von ${bewerbung.name} wirklich ablehnen?`)) {
+                bewerbung.status = 'Abgelehnt';
+                updateBewerbungenList();
+                alert(`Die Bewerbung wurde abgelehnt.\nBitte kontaktiere den Bewerber über Discord: ${bewerbung.discord}`);
+            }
+        }
+
+        // Modal schließen bei Klick außerhalb
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -697,6 +697,58 @@
             background: #c0392b;
         }
 
+        .btn-notiz {
+            background: #3498db;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-notiz:hover {
+            background: #2980b9;
+        }
+
+        .admin-notiz {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #ffc107;
+        }
+
+        .admin-notiz-header {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .export-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .export-btn {
+            background: #9b59b6;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .export-btn:hover {
+            background: #8e44ad;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -920,9 +972,6 @@
                         </div>
                         <button type="submit" class="btn">Anmelden</button>
                     </form>
-                    <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
-                        Demo: Benutzer: <strong>admin</strong> / Passwort: <strong>ocean123</strong>
-                    </p>
                 </div>
             </div>
 
@@ -952,11 +1001,19 @@
 
                 <div id="bewerbungenTab" class="tab-content" style="display: none;">
                     <div class="personal-management">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                             <h3 style="color: #667eea;">📝 Eingegangene Bewerbungen</h3>
-                            <span class="status-badge" style="background: #667eea; color: white; padding: 0.5rem 1rem;">
-                                <span id="bewerbungCount">0</span> Neue Bewerbungen
-                            </span>
+                            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                                <select id="bewerbungFilter" onchange="filterBewerbungen()" style="padding: 0.5rem; border-radius: 8px; border: 2px solid #667eea;">
+                                    <option value="alle">Alle anzeigen</option>
+                                    <option value="Neu">Nur Neue</option>
+                                    <option value="Angenommen">Angenommen</option>
+                                    <option value="Abgelehnt">Abgelehnt</option>
+                                </select>
+                                <span class="status-badge" style="background: #667eea; color: white; padding: 0.5rem 1rem;">
+                                    <span id="bewerbungCount">0</span> Neue Bewerbungen
+                                </span>
+                            </div>
                         </div>
                         <div id="bewerbungenList"></div>
                     </div>
@@ -1162,6 +1219,22 @@
         </div>
     </div>
 
+    <!-- Modal für Notizen -->
+    <div id="notizModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #667eea; margin-bottom: 1.5rem;">📝 Admin-Notiz hinzufügen</h3>
+            <form onsubmit="return saveNotiz(event)">
+                <input type="hidden" id="notizBewerbungId">
+                <div class="form-group">
+                    <label>Notiz zur Bewerbung</label>
+                    <textarea id="notizText" rows="5" placeholder="z.B. Vorstellungsgespräch am 20.10 um 18 Uhr geplant..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Notiz speichern</button>
+                <button type="button" class="btn btn-secondary" onclick="closeNotizModal()">Abbrechen</button>
+            </form>
+        </div>
+    </div>
+
     <section class="discord-section" id="kontakt">
         <h2>🎮 Tritt unserem Discord bei</h2>
         <p>Bewirb dich jetzt und werde Teil der besten medizinischen Einrichtung der Stadt!</p>
@@ -1187,7 +1260,16 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'admin' && password === 'ocean123') {
+            // Hier kannst du deine eigenen Login-Daten eintragen
+            // WICHTIG: Ändere diese Daten für deine Sicherheit!
+            const validUsers = {
+                'admin': 'ocean123',           // Standard Admin
+                'leitung': 'hospital2025',     // Krankenhausleitung
+                // Füge hier weitere Benutzer hinzu:
+                // 'deinname': 'deinpasswort',
+            };
+
+            if (validUsers[username] && validUsers[username] === password) {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('portalContent').classList.add('active');
                 document.getElementById('loggedUser').textContent = username;
@@ -1195,7 +1277,7 @@
                 startClock();
                 return false;
             } else {
-                alert('Falscher Benutzername oder Passwort!');
+                alert('❌ Falscher Benutzername oder Passwort!');
                 return false;
             }
         }
@@ -1563,14 +1645,29 @@
             
             if (!container) return;
             
+            // Filter anwenden
+            const filter = document.getElementById('bewerbungFilter')?.value || 'alle';
+            let filteredBewerbungen = bewerbungenData;
+            
+            if (filter !== 'alle') {
+                filteredBewerbungen = bewerbungenData.filter(b => b.status === filter);
+            }
+            
             container.innerHTML = '';
             
-            if (bewerbungenData.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Noch keine Bewerbungen eingegangen.</p>';
+            if (filteredBewerbungen.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Keine Bewerbungen gefunden.</p>';
                 return;
             }
 
-            bewerbungenData.forEach(bewerbung => {
+            // Sortieren: Neue zuerst
+            filteredBewerbungen.sort((a, b) => {
+                if (a.status === 'Neu' && b.status !== 'Neu') return -1;
+                if (a.status !== 'Neu' && b.status === 'Neu') return 1;
+                return b.id - a.id;
+            });
+
+            filteredBewerbungen.forEach(bewerbung => {
                 const div = document.createElement('div');
                 div.className = 'bewerbung-card';
                 div.innerHTML = `
@@ -1591,7 +1688,13 @@
                         </div>
                         <div class="bewerbung-field">
                             <div class="bewerbung-label">Discord:</div>
-                            <div class="bewerbung-value">${bewerbung.discord}</div>
+                            <div class="bewerbung-value">
+                                <a href="#" onclick="copyToClipboard('${bewerbung.discord}'); return false;" 
+                                   style="color: #667eea; text-decoration: none;" 
+                                   title="Klicken zum Kopieren">
+                                    ${bewerbung.discord} 📋
+                                </a>
+                            </div>
                         </div>
                         <div class="bewerbung-field">
                             <div class="bewerbung-label">Position:</div>
@@ -1623,19 +1726,141 @@
                         </div>
                     ` : ''}
                     
-                    ${bewerbung.status === 'Neu' ? `
-                        <div class="bewerbung-actions">
+                    ${bewerbung.adminNotiz ? `
+                        <div class="admin-notiz">
+                            <div class="admin-notiz-header">📌 Admin-Notiz:</div>
+                            <p>${bewerbung.adminNotiz}</p>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="bewerbung-actions">
+                        ${bewerbung.status === 'Neu' ? `
                             <button class="btn-accept" onclick="acceptBewerbung(${bewerbung.id})">
                                 ✅ Annehmen
                             </button>
                             <button class="btn-reject" onclick="rejectBewerbung(${bewerbung.id})">
                                 ❌ Ablehnen
                             </button>
-                        </div>
-                    ` : ''}
+                        ` : ''}
+                        <button class="btn-notiz" onclick="openNotizModal(${bewerbung.id})">
+                            📝 Notiz ${bewerbung.adminNotiz ? 'bearbeiten' : 'hinzufügen'}
+                        </button>
+                    </div>
                 `;
                 container.appendChild(div);
             });
+            
+            // Export-Bereich hinzufügen
+            if (filteredBewerbungen.length > 0) {
+                const exportDiv = document.createElement('div');
+                exportDiv.className = 'export-section';
+                exportDiv.innerHTML = `
+                    <h4 style="color: #667eea; margin-bottom: 1rem;">📊 Export & Verwaltung</h4>
+                    <button class="export-btn" onclick="exportBewerbungen()">
+                        📥 Als Text exportieren
+                    </button>
+                    <button class="export-btn" onclick="deleteAllAbgelehnt()" style="background: #e74c3c;">
+                        🗑️ Abgelehnte löschen
+                    </button>
+                    <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                        Insgesamt ${bewerbungenData.length} Bewerbungen 
+                        (${bewerbungenData.filter(b => b.status === 'Neu').length} Neu, 
+                        ${bewerbungenData.filter(b => b.status === 'Angenommen').length} Angenommen, 
+                        ${bewerbungenData.filter(b => b.status === 'Abgelehnt').length} Abgelehnt)
+                    </p>
+                `;
+                container.appendChild(exportDiv);
+            }
+        }
+
+        function filterBewerbungen() {
+            updateBewerbungenList();
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Discord-Name kopiert: ' + text);
+            }).catch(() => {
+                alert('📋 Discord-Name: ' + text);
+            });
+        }
+
+        function openNotizModal(bewerbungId) {
+            const bewerbung = bewerbungenData.find(b => b.id === bewerbungId);
+            if (!bewerbung) return;
+            
+            document.getElementById('notizBewerbungId').value = bewerbungId;
+            document.getElementById('notizText').value = bewerbung.adminNotiz || '';
+            document.getElementById('notizModal').classList.add('active');
+        }
+
+        function closeNotizModal() {
+            document.getElementById('notizModal').classList.remove('active');
+            document.getElementById('notizText').value = '';
+        }
+
+        function saveNotiz(event) {
+            event.preventDefault();
+            const bewerbungId = parseInt(document.getElementById('notizBewerbungId').value);
+            const notizText = document.getElementById('notizText').value;
+            
+            const bewerbung = bewerbungenData.find(b => b.id === bewerbungId);
+            if (bewerbung) {
+                bewerbung.adminNotiz = notizText;
+                updateBewerbungenList();
+                closeNotizModal();
+                alert('✅ Notiz gespeichert!');
+            }
+            return false;
+        }
+
+        function exportBewerbungen() {
+            let exportText = '=== OCEAN HOSPITAL - BEWERBUNGEN ===\n\n';
+            
+            bewerbungenData.forEach(b => {
+                exportText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                exportText += `NAME: ${b.name}\n`;
+                exportText += `STATUS: ${b.status}\n`;
+                exportText += `EINGEGANGEN: ${b.datum}\n`;
+                exportText += `DISCORD: ${b.discord}\n`;
+                exportText += `ALTER: ${b.alter} Jahre\n`;
+                exportText += `POSITION: ${b.position}\n`;
+                exportText += `ABTEILUNG: ${b.abteilung}\n`;
+                exportText += `RP-ERFAHRUNG: ${b.erfahrung}\n`;
+                exportText += `VERFÜGBARKEIT: ${b.verfuegbar}\n\n`;
+                exportText += `MOTIVATION:\n${b.motivation}\n\n`;
+                if (b.hintergrund) {
+                    exportText += `RP-HINTERGRUND:\n${b.hintergrund}\n\n`;
+                }
+                if (b.adminNotiz) {
+                    exportText += `ADMIN-NOTIZ:\n${b.adminNotiz}\n\n`;
+                }
+                exportText += `\n`;
+            });
+            
+            // Text in Zwischenablage kopieren
+            navigator.clipboard.writeText(exportText).then(() => {
+                alert('✅ Bewerbungen wurden in die Zwischenablage kopiert!\n\nDu kannst sie jetzt in Discord, Word oder einem anderen Programm einfügen.');
+            }).catch(() => {
+                // Fallback: Zeige in einem neuen Fenster
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write('<pre>' + exportText + '</pre>');
+            });
+        }
+
+        function deleteAllAbgelehnt() {
+            const anzahl = bewerbungenData.filter(b => b.status === 'Abgelehnt').length;
+            
+            if (anzahl === 0) {
+                alert('ℹ️ Keine abgelehnten Bewerbungen vorhanden.');
+                return;
+            }
+            
+            if (confirm(`Möchtest du wirklich alle ${anzahl} abgelehnten Bewerbungen löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden!`)) {
+                bewerbungenData = bewerbungenData.filter(b => b.status !== 'Abgelehnt');
+                updateBewerbungenList();
+                alert(`✅ ${anzahl} abgelehnte Bewerbungen wurden gelöscht.`);
+            }
         }
 
         function acceptBewerbung(id) {
